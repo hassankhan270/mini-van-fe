@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { motion } from "motion/react";
-import { CaravanIcon, LayoutDashboardIcon, LogOutIcon, TruckIcon } from "lucide-react";
+import { LayoutDashboardIcon, LogOutIcon, TruckIcon } from "lucide-react";
 import { AdminAuthGate, useAdminAuth } from "@/components/admin-auth";
+import { Logo } from "@/components/logo";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
@@ -37,9 +38,7 @@ function DashboardChrome({ children }: { children: React.ReactNode }) {
       <aside className="flex shrink-0 flex-col bg-sidebar text-sidebar-foreground lg:w-60">
         <div className="flex items-center justify-between gap-2 border-b border-sidebar-border px-4 py-4 lg:px-5">
           <Link href="/admin" className="flex items-center gap-2">
-            <span className="flex size-8 items-center justify-center rounded-lg bg-sidebar-accent">
-              <CaravanIcon className="size-4.5 text-sidebar-primary" />
-            </span>
+            <Logo className="size-8" />
             <span className="flex flex-col leading-none">
               <span className="font-semibold tracking-tight">Roamly</span>
               <span className="mt-0.5 text-[10px] tracking-wide text-sidebar-foreground/50 uppercase">Admin</span>

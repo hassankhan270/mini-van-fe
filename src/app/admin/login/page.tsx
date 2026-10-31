@@ -3,10 +3,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
-import { CaravanIcon, Loader2Icon } from "lucide-react";
+import { Loader2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Logo } from "@/components/logo";
 import { ApiRequestError } from "@/lib/api";
 import { useAdminAuth } from "@/components/admin-auth";
 
@@ -53,9 +54,7 @@ export default function AdminLoginPage() {
           className="rounded-2xl bg-card p-6 ring-1 ring-foreground/10 sm:p-8"
         >
           <div className="mb-6 flex flex-col items-center gap-2 text-center">
-            <span className="flex size-10 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-              <CaravanIcon className="size-5" />
-            </span>
+            <Logo className="size-10" />
             <h1 className="text-lg font-semibold">Admin sign in</h1>
             <p className="text-sm text-muted-foreground">Manage the fleet and view reservations.</p>
           </div>
