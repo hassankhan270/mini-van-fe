@@ -15,6 +15,7 @@ export type AdminUser = {
 function decodeToken(token: string): AdminUser | null {
   try {
     const payload = JSON.parse(atob(token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/")));
+    console.log("Decoded token payload:", payload);
     if (typeof payload.email !== "string") return null;
     return { email: payload.email, role: typeof payload.role === "string" ? payload.role : "admin" };
   } catch {
