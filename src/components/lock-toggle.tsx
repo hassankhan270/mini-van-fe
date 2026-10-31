@@ -6,17 +6,10 @@ import { LockIcon, LockOpenIcon, Loader2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ApiRequestError, toggleLock, type Reservation } from "@/lib/api";
 
-function withinWindow(startDate: string, endDate: string) {
-  const today = new Date().toISOString().slice(0, 10);
-  return today >= startDate && today <= endDate;
-}
-
 export function LockToggle({ reservation }: { reservation: Reservation }) {
   const [isLocked, setIsLocked] = useState(reservation.isLocked);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
-  const active = withinWindow(reservation.startDate, reservation.endDate);
 
   async function handleToggle() {
     setLoading(true);
@@ -25,19 +18,17 @@ export function LockToggle({ reservation }: { reservation: Reservation }) {
       const updated = await toggleLock(reservation.id);
       setIsLocked(updated.isLocked);
     } catch (err) {
-      setError(err instanceof ApiRequestError ? err.message : "Couldn't update the lock. Try again.");
+      // Toggle didn't go through (e.g. outside the rental window) — leave the state as-is.
+      setError(
+        err instanceof ApiRequestError && err.status === 403
+          ? "This booking is outside its rental window, so it stays unlocked for now."
+          : err instanceof ApiRequestError
+            ? err.message
+            : "Couldn't update the lock. Try again.",
+      );
     } finally {
       setLoading(false);
     }
-  }
-
-  if (!active) {
-    return (
-      <div className="flex flex-col gap-2 rounded-xl border border-dashed border-border p-4 text-center text-sm text-muted-foreground">
-        <LockIcon className="mx-auto size-5" />
-        <p>Lock/unlock is only available during the rental window ({reservation.startDate} – {reservation.endDate}).</p>
-      </div>
-    );
   }
 
   return (
