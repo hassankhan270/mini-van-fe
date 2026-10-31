@@ -10,9 +10,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { VanCard } from "@/components/van-card";
 import { RevealGroup, RevealItem } from "@/components/motion/reveal";
 import { cn } from "@/lib/utils";
-import { ApiRequestError, getAvailableVans, getVans, type Van, type VehicleType } from "@/lib/api";
+import { ApiRequestError, getAvailableVans, getVans, todayLocalISO, type Van, type VehicleType } from "@/lib/api";
 
-const today = () => new Date().toISOString().slice(0, 10);
+const today = todayLocalISO;
 
 const typeTabs: { id: VehicleType | "all"; label: string }[] = [
   { id: "all", label: "All" },

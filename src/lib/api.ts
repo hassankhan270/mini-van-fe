@@ -182,6 +182,21 @@ export async function uploadVanImage(id: string, file: File, token: string) {
   return (await res.json()) as Van;
 }
 
+// `date.toISOString()` converts through UTC first, which shifts the calendar
+// date by a day in timezones ahead of UTC (e.g. midnight in UTC+5 is still
+// 7pm the previous day in UTC). Read the local Y/M/D components directly
+// instead, so "today" and calendar dates match what the clock on the wall says.
+export function toLocalISODate(date: Date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+export function todayLocalISO() {
+  return toLocalISODate(new Date());
+}
+
 export function rentalDays(startDate: string, endDate: string) {
   const diff = Math.round((new Date(endDate).getTime() - new Date(startDate).getTime()) / 86_400_000);
   return diff > 0 ? diff : 0;

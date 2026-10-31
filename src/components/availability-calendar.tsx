@@ -3,13 +3,9 @@
 import { useMemo, useState } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import type { DateRange } from "@/lib/api";
+import { toLocalISODate, type DateRange } from "@/lib/api";
 
 const WEEKDAY_LABELS = ["S", "M", "T", "W", "T", "F", "S"];
-
-function toISODate(date: Date) {
-  return date.toISOString().slice(0, 10);
-}
 
 function isWithinBookedRange(day: string, ranges: DateRange[]) {
   return ranges.some((r) => day >= r.startDate && day < r.endDate);
@@ -32,7 +28,7 @@ export function AvailabilityCalendar({
   onChange: (next: { startDate: string; endDate: string }) => void;
   conflictMessage?: string;
 }) {
-  const today = useMemo(() => toISODate(new Date()), []);
+  const today = useMemo(() => toLocalISODate(new Date()), []);
   const [viewMonth, setViewMonth] = useState(() => {
     const base = startDate ? new Date(`${startDate}T00:00:00`) : new Date(`${today}T00:00:00`);
     return new Date(base.getFullYear(), base.getMonth(), 1);
@@ -49,7 +45,7 @@ export function AvailabilityCalendar({
     for (let i = 0; i < 42; i++) {
       const d = new Date(gridStart);
       d.setDate(gridStart.getDate() + i);
-      days.push({ iso: toISODate(d), label: d.getDate(), inMonth: d.getMonth() === month });
+      days.push({ iso: toLocalISODate(d), label: d.getDate(), inMonth: d.getMonth() === month });
     }
 
     const result: (typeof days)[] = [];

@@ -14,13 +14,14 @@ import {
   getReservations,
   getVans,
   rentalDays,
+  todayLocalISO,
   type Reservation,
   type Van,
   type VehicleType,
 } from "@/lib/api";
 
 function isActive(r: Reservation) {
-  const today = new Date().toISOString().slice(0, 10);
+  const today = todayLocalISO();
   return today >= r.startDate && today <= r.endDate;
 }
 
